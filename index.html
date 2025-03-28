@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(9, 40px);
+            gap: 2px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border: 1px solid black;
+        }
+        .cell:focus {
+            outline: none;
+            background-color: lightyellow;
+        }
+        .bold-border {
+            border-right: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+        .btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sudoku Solver</h1>
+    <div class="container">
+        <div id="sudoku-board" class="grid"></div>
+        <button class="btn" onclick="solveSudoku()">Solve</button>
+    </div>
+
+    <script>
+        // Create 9x9 Sudoku Grid
+        const board = document.getElementById("sudoku-board");
+        let sudoku = Array.from({ length: 9 }, () => Array(9).fill("."));
+
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                let cell = document.createElement("input");
+                cell.type = "text";
+                cell.classList.add("cell");
+                if (j === 2 || j === 5) cell.classList.add("bold-border");
+                if (i === 2 || i === 5) cell.classList.add("bold-border");
+
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+                cell.addEventListener("input", (e) => {
+                    let value = e.target.value;
+                    if (/^[1-9]$/.test(value)) {
+                        sudoku[i][j] = value;
+                    } else {
+                        e.target.value = "";
+                        sudoku[i][j] = ".";
+                    }
+                });
+
+                board.appendChild(cell);
+            }
+        }
+
+        // Sudoku Solver using Backtracking
+        function solveSudoku() {
+            if (solve()) fillBoard();
+        }
+
+        function solve() {
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    if (sudoku[i][j] === ".") {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(i, j, num.toString())) {
+                                sudoku[i][j] = num.toString();
+                                if (solve()) return true;
+                                sudoku[i][j] = "."; // Backtrack
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function isValid(row, col, num) {
+            for (let i = 0; i < 9; i++) {
+                if (sudoku[row][i] === num || sudoku[i][col] === num ||
+                    sudoku[3 * Math.floor(row / 3) + Math.floor(i / 3)][3 * Math.floor(col / 3) + (i % 3)] === num) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function fillBoard() {
+            document.querySelectorAll(".cell").forEach((cell) => {
+                let i = cell.dataset.row;
+                let j = cell.dataset.col;
+                cell.value = sudoku[i][j];
+            });
+        }
+    </script>
+
+</body>
+</html>
