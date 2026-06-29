@@ -110,7 +110,6 @@ sudoku/
 
 **Manish Kumar Mahato**  
 B.Tech CSE · NIT Warangal  
-[GitHub](https://github.com/manishkrmahato) · [LeetCode](https://leetcode.com/manishkrmahato)
 
 ---
 
