@@ -22,223 +22,61 @@
     --given: #c9c7ff;
     --solved: #6bffb8;
     --error: #ff6b6b;
-    --cell-size: 58px;
+    --cell: 52px;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Space Grotesk', sans-serif;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px 16px;
+    padding: 12px 16px;
+    gap: 10px;
   }
 
+  /* header */
   header {
     text-align: center;
-    margin-bottom: 32px;
+    line-height: 1;
   }
 
   .eyebrow {
     font-family: 'Space Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.2em;
     color: var(--accent);
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   h1 {
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.03em;
-    line-height: 1;
-    color: var(--text);
   }
 
-  h1 span {
-    color: var(--accent);
-  }
+  h1 span { color: var(--accent); }
 
-  .subtitle {
-    margin-top: 8px;
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-
-  .app {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    width: 100%;
-    max-width: 600px;
-  }
-
-  .grid-wrap {
-    position: relative;
-  }
-
-  #grid {
-    display: grid;
-    grid-template-columns: repeat(9, var(--cell-size));
-    grid-template-rows: repeat(9, var(--cell-size));
-    border: 2.5px solid var(--accent);
-    border-radius: 6px;
-    overflow: hidden;
-    gap: 0;
-    box-shadow: 0 0 40px rgba(124,111,255,0.15), 0 0 80px rgba(124,111,255,0.06);
-  }
-
-  .cell {
-    width: var(--cell-size);
-    height: var(--cell-size);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Space Mono', monospace;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: background 0.1s, color 0.1s, box-shadow 0.1s;
-    position: relative;
-    outline: none;
-    user-select: none;
-  }
-
-  /* Bold box borders for 3×3 blocks */
-  .cell[data-col="2"], .cell[data-col="5"] { border-right: 2px solid var(--border-box); }
-  .cell[data-row="2"], .cell[data-row="5"] { border-bottom: 2px solid var(--border-box); }
-
-  .cell:hover { background: var(--surface2); }
-
-  .cell.selected {
-    background: rgba(124,111,255,0.18);
-    box-shadow: inset 0 0 0 2px var(--accent);
-    color: var(--text);
-    z-index: 2;
-  }
-
-  .cell.highlight { background: rgba(124,111,255,0.07); }
-
-  .cell.given {
-    color: var(--given);
-    cursor: default;
-  }
-
-  .cell.solved {
-    color: var(--solved);
-    animation: popIn 0.25s ease;
-  }
-
-  .cell.error {
-    color: var(--error);
-    background: rgba(255,107,107,0.1);
-  }
-
-  @keyframes popIn {
-    0% { transform: scale(0.7); opacity: 0; }
-    70% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  /* CONTROLS */
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .btn {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: 1.5px solid transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-transform: uppercase;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-  .btn-primary:hover { background: #9080ff; border-color: #9080ff; }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    border-color: var(--border-box);
-  }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--error);
-    border-color: rgba(255,107,107,0.4);
-  }
-  .btn-danger:hover { background: rgba(255,107,107,0.1); }
-
-  /* NUMPAD */
-  .numpad {
-    display: flex;
-    gap: 8px;
-  }
-
-  .num-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.12s;
-  }
-  .num-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-  /* STATUS */
-  .status {
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    min-height: 18px;
-    text-align: center;
-  }
-  .status.ok { color: var(--solved); }
-  .status.err { color: var(--error); }
-
-  /* DIFFICULTY */
+  /* difficulty pills */
   .difficulty {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
   .diff-btn {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
-    padding: 6px 14px;
+    padding: 4px 12px;
     border-radius: 20px;
     border: 1.5px solid var(--border);
     background: transparent;
@@ -248,16 +86,136 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
+
   .diff-btn.active, .diff-btn:hover {
     border-color: var(--accent2);
     color: var(--accent2);
   }
 
-  /* Responsive */
-  @media (max-width: 560px) {
-    :root { --cell-size: 38px; }
-    .cell { font-size: 14px; }
-    h1 { font-size: 26px; }
+  /* grid */
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(9, var(--cell));
+    grid-template-rows: repeat(9, var(--cell));
+    border: 2.5px solid var(--accent);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(124,111,255,0.15);
+  }
+
+  .cell {
+    width: var(--cell);
+    height: var(--cell);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background 0.1s, color 0.1s;
+    outline: none;
+    user-select: none;
+  }
+
+  .cell[data-col="2"], .cell[data-col="5"] { border-right: 2px solid var(--border-box); }
+  .cell[data-row="2"], .cell[data-row="5"] { border-bottom: 2px solid var(--border-box); }
+
+  .cell:hover { background: var(--surface2); }
+  .cell.selected { background: rgba(124,111,255,0.18); box-shadow: inset 0 0 0 2px var(--accent); color: var(--text); z-index: 2; }
+  .cell.highlight { background: rgba(124,111,255,0.07); }
+  .cell.given { color: var(--given); cursor: default; }
+  .cell.solved { color: var(--solved); animation: popIn 0.2s ease; }
+  .cell.error { color: var(--error); background: rgba(255,107,107,0.1); }
+
+  @keyframes popIn {
+    0%   { transform: scale(0.7); opacity: 0; }
+    70%  { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* numpad */
+  .numpad {
+    display: flex;
+    gap: 6px;
+  }
+
+  .num-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.12s;
+  }
+
+  .num-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* action buttons */
+  .controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #9080ff; }
+
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--border-box); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-danger { background: transparent; color: var(--error); border-color: rgba(255,107,107,0.4); }
+  .btn-danger:hover { background: rgba(255,107,107,0.1); }
+
+  /* status */
+  .status {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    min-height: 16px;
+    text-align: center;
+  }
+
+  .status.ok  { color: var(--solved); }
+  .status.err { color: var(--error); }
+
+  /* responsive for smaller screens */
+  @media (max-height: 700px) {
+    :root { --cell: 42px; }
+    .cell { font-size: 15px; }
+    h1 { font-size: 22px; }
+    body { gap: 8px; }
+  }
+
+  @media (max-width: 500px) {
+    :root { --cell: 38px; }
+    .cell { font-size: 13px; }
   }
 </style>
 </head>
@@ -266,34 +224,29 @@
 <header>
   <p class="eyebrow">Logic Puzzle</p>
   <h1>Sudoku <span>Solver</span></h1>
-  <p class="subtitle">Enter numbers or load a puzzle — then hit Solve</p>
 </header>
 
-<div class="app">
-  <div class="difficulty">
-    <button class="diff-btn active" data-diff="easy">Easy</button>
-    <button class="diff-btn" data-diff="medium">Medium</button>
-    <button class="diff-btn" data-diff="hard">Hard</button>
-  </div>
-
-  <div class="grid-wrap">
-    <div id="grid"></div>
-  </div>
-
-  <div class="numpad" id="numpad"></div>
-
-  <div class="controls">
-    <button class="btn btn-secondary" id="btnLoad">Load Puzzle</button>
-    <button class="btn btn-primary" id="btnSolve">Solve</button>
-    <button class="btn btn-secondary" id="btnValidate">Validate</button>
-    <button class="btn btn-danger" id="btnClear">Clear</button>
-  </div>
-
-  <div class="status" id="status">Select a cell and type a number</div>
+<div class="difficulty">
+  <button class="diff-btn active" data-diff="easy">Easy</button>
+  <button class="diff-btn" data-diff="medium">Medium</button>
+  <button class="diff-btn" data-diff="hard">Hard</button>
 </div>
 
+<div id="grid"></div>
+
+<div class="numpad" id="numpad"></div>
+
+<div class="controls">
+  <button class="btn btn-secondary" id="btnLoad">Load Puzzle</button>
+  <button class="btn btn-primary"   id="btnSolve">Solve</button>
+  <button class="btn btn-secondary" id="btnValidate">Validate</button>
+  <button class="btn btn-danger"    id="btnClear">Clear</button>
+</div>
+
+<div class="status" id="status">Select a cell and type a number</div>
+
 <script>
-//PUZZLES
+// built-in puzzles for each difficulty
 const PUZZLES = {
   easy: [
     [5,3,0,0,7,0,0,0,0],
@@ -330,16 +283,16 @@ const PUZZLES = {
   ]
 };
 
-//STATE
+// state
 let board = Array.from({length:9}, () => Array(9).fill(0));
 let given = Array.from({length:9}, () => Array(9).fill(false));
 let selected = null;
 let currentDiff = 'easy';
 
-//DOM
-const gridEl = document.getElementById('grid');
+const gridEl   = document.getElementById('grid');
 const statusEl = document.getElementById('status');
 
+// build 81 cell divs once
 function buildGrid() {
   gridEl.innerHTML = '';
   for (let r = 0; r < 9; r++) {
@@ -381,11 +334,11 @@ function highlightRelated() {
   const [sr, sc] = selected;
   for (let r = 0; r < 9; r++) {
     for (let c = 0; c < 9; c++) {
-      const cell = getCell(r, c);
       if (r === sr && c === sc) continue;
-      if (r === sr || c === sc || (Math.floor(r/3)===Math.floor(sr/3) && Math.floor(c/3)===Math.floor(sc/3))) {
-        cell.classList.add('highlight');
-      }
+      const sameRow = r === sr;
+      const sameCol = c === sc;
+      const sameBox = Math.floor(r/3) === Math.floor(sr/3) && Math.floor(c/3) === Math.floor(sc/3);
+      if (sameRow || sameCol || sameBox) getCell(r, c).classList.add('highlight');
     }
   }
 }
@@ -399,17 +352,15 @@ function selectCell(r, c) {
 function onCellKey(e) {
   if (!selected) return;
   const [r, c] = selected;
-  const arrows = {ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
-  if (arrows[e.key]) {
+  const moves = { ArrowUp:[-1,0], ArrowDown:[1,0], ArrowLeft:[0,-1], ArrowRight:[0,1] };
+  if (moves[e.key]) {
     e.preventDefault();
-    const [dr, dc] = arrows[e.key];
-    const nr = Math.max(0, Math.min(8, r+dr));
-    const nc = Math.max(0, Math.min(8, c+dc));
-    selectCell(nr, nc);
+    const [dr, dc] = moves[e.key];
+    selectCell(Math.max(0, Math.min(8, r+dr)), Math.max(0, Math.min(8, c+dc)));
     return;
   }
   if (/^[1-9]$/.test(e.key)) { enterDigit(parseInt(e.key)); return; }
-  if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') { enterDigit(0); }
+  if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') enterDigit(0);
 }
 
 function enterDigit(n) {
@@ -421,7 +372,7 @@ function enterDigit(n) {
   renderBoard();
 }
 
-//NUMPAD
+// build numpad 1-9 + erase
 const numpadEl = document.getElementById('numpad');
 for (let i = 1; i <= 9; i++) {
   const btn = document.createElement('button');
@@ -430,7 +381,6 @@ for (let i = 1; i <= 9; i++) {
   btn.addEventListener('click', () => enterDigit(i));
   numpadEl.appendChild(btn);
 }
-// Erase button
 const eraseBtn = document.createElement('button');
 eraseBtn.className = 'num-btn';
 eraseBtn.title = 'Erase';
@@ -438,11 +388,10 @@ eraseBtn.innerHTML = '✕';
 eraseBtn.addEventListener('click', () => enterDigit(0));
 numpadEl.appendChild(eraseBtn);
 
-//SOLVER (backtracking)
+// check if placing n at (r,c) is valid (cell must be 0 before calling)
 function isValid(b, r, c, n) {
   for (let i = 0; i < 9; i++) {
-    if (b[r][i] === n) return false;
-    if (b[i][c] === n) return false;
+    if (b[r][i] === n || b[i][c] === n) return false;
   }
   const br = Math.floor(r/3)*3, bc = Math.floor(c/3)*3;
   for (let i = 0; i < 3; i++)
@@ -451,6 +400,7 @@ function isValid(b, r, c, n) {
   return true;
 }
 
+// backtracking solver
 function solve(b) {
   for (let r = 0; r < 9; r++) {
     for (let c = 0; c < 9; c++) {
@@ -469,6 +419,7 @@ function solve(b) {
   return true;
 }
 
+// check the whole board for conflicts
 function isBoardValid(b) {
   for (let r = 0; r < 9; r++)
     for (let c = 0; c < 9; c++)
@@ -478,76 +429,6 @@ function isBoardValid(b) {
         b[r][c] = v;
       }
   return true;
-}
-
-//BUTTONS
-document.getElementById('btnSolve').addEventListener('click', () => {
-  if (!isBoardValid(board)) {
-    setStatus('Board has conflicts — fix errors first', 'err');
-    markErrors();
-    return;
-  }
-  const copy = board.map(r => [...r]);
-  if (solve(copy)) {
-    // animate solved cells
-    for (let r = 0; r < 9; r++)
-      for (let c = 0; c < 9; c++) {
-        if (!given[r][c] && board[r][c] === 0) {
-          board[r][c] = copy[r][c];
-        }
-      }
-    renderBoard();
-    // add solved class with stagger
-    for (let r = 0; r < 9; r++)
-      for (let c = 0; c < 9; c++)
-        if (!given[r][c] && board[r][c] !== 0) {
-          const cell = getCell(r, c);
-          const delay = (r*9+c) * 12;
-          setTimeout(() => cell.classList.add('solved'), delay);
-        }
-    setStatus('Solved!', 'ok');
-  } else {
-    setStatus('No solution exists for this puzzle', 'err');
-  }
-});
-
-document.getElementById('btnValidate').addEventListener('click', () => {
-  if (isBoardValid(board)) {
-    setStatus('No conflicts found ✓', 'ok');
-  } else {
-    markErrors();
-    setStatus('Conflicts detected — highlighted in red', 'err');
-  }
-});
-
-document.getElementById('btnLoad').addEventListener('click', () => {
-  loadPuzzle(currentDiff);
-});
-
-document.getElementById('btnClear').addEventListener('click', () => {
-  board = Array.from({length:9}, () => Array(9).fill(0));
-  given = Array.from({length:9}, () => Array(9).fill(false));
-  selected = null;
-  setStatus('Board cleared');
-  renderBoard();
-});
-
-// Difficulty buttons
-document.querySelectorAll('.diff-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentDiff = btn.dataset.diff;
-  });
-});
-
-function loadPuzzle(diff) {
-  const p = PUZZLES[diff];
-  board = p.map(r => [...r]);
-  given = p.map(r => r.map(v => v !== 0));
-  selected = null;
-  setStatus(`${diff.charAt(0).toUpperCase()+diff.slice(1)} puzzle loaded`);
-  renderBoard();
 }
 
 function markErrors() {
@@ -569,6 +450,68 @@ function setStatus(msg, type = '') {
   statusEl.className = 'status' + (type ? ' ' + type : '');
 }
 
+function loadPuzzle(diff) {
+  const p = PUZZLES[diff];
+  board = p.map(r => [...r]);
+  given = p.map(r => r.map(v => v !== 0));
+  selected = null;
+  setStatus(diff.charAt(0).toUpperCase() + diff.slice(1) + ' puzzle loaded');
+  renderBoard();
+}
+
+// button listeners
+document.getElementById('btnSolve').addEventListener('click', () => {
+  if (!isBoardValid(board)) {
+    markErrors();
+    setStatus('Board has conflicts — fix errors first', 'err');
+    return;
+  }
+  const copy = board.map(r => [...r]);
+  if (solve(copy)) {
+    for (let r = 0; r < 9; r++)
+      for (let c = 0; c < 9; c++)
+        if (!given[r][c] && board[r][c] === 0) board[r][c] = copy[r][c];
+    renderBoard();
+    for (let r = 0; r < 9; r++)
+      for (let c = 0; c < 9; c++)
+        if (!given[r][c] && board[r][c] !== 0) {
+          const delay = (r*9 + c) * 10;
+          setTimeout(() => getCell(r, c).classList.add('solved'), delay);
+        }
+    setStatus('Solved!', 'ok');
+  } else {
+    setStatus('No solution exists for this puzzle', 'err');
+  }
+});
+
+document.getElementById('btnValidate').addEventListener('click', () => {
+  if (isBoardValid(board)) {
+    setStatus('No conflicts found ✓', 'ok');
+  } else {
+    markErrors();
+    setStatus('Conflicts detected — highlighted in red', 'err');
+  }
+});
+
+document.getElementById('btnLoad').addEventListener('click', () => loadPuzzle(currentDiff));
+
+document.getElementById('btnClear').addEventListener('click', () => {
+  board = Array.from({length:9}, () => Array(9).fill(0));
+  given = Array.from({length:9}, () => Array(9).fill(false));
+  selected = null;
+  setStatus('Board cleared');
+  renderBoard();
+});
+
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentDiff = btn.dataset.diff;
+  });
+});
+
+// init
 buildGrid();
 loadPuzzle('easy');
 </script>
